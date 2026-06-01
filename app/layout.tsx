@@ -9,8 +9,8 @@ const hanken = Hanken_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Gullak — Savings Tracker",
-  description: "Track your savings goals with Gullak",
+  title: "gullak.online — Savings Tracker",
+  description: "Track your savings goals with gullak.online",
   viewport: {
     width: "device-width",
     initialScale: 1,

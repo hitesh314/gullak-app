@@ -81,27 +81,28 @@ function generateCoins(pct: number): Coin[] {
 function Gullak({ pct, coinAction }: { pct: number; coinAction: "insert" | "remove" | null }) {
   const coins = generateCoins(pct);
   return (
-    <div className="relative flex items-center justify-center" style={{ width: 400, height: 460 }}>
-      {/* Full-color layer (bottom — shows through for filled portion) */}
+    <div className="relative flex items-center justify-center w-full" style={{ height: 480 }}>
+      {/* Full-color layer */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/gullak.png"
         alt=""
         aria-hidden
-        className="absolute inset-0 z-10 w-full h-full object-contain pointer-events-none"
-        style={{ mixBlendMode: "multiply" }}
+        className="absolute inset-0 z-10 w-full h-full pointer-events-none"
+        style={{ mixBlendMode: "multiply", objectFit: "fill" }}
       />
 
-      {/* Grayscale layer clipped to the unfilled (top) portion */}
+      {/* Grayscale layer clipped to unfilled (top) portion */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/gullak.png"
         alt="Gullak"
-        className="absolute inset-0 z-20 w-full h-full object-contain pointer-events-none transition-all duration-700"
+        className="absolute inset-0 z-20 w-full h-full pointer-events-none transition-all duration-700"
         style={{
           mixBlendMode: "multiply",
           filter: "grayscale(1) brightness(1.05)",
           clipPath: `inset(0 0 ${pct}% 0)`,
+          objectFit: "fill",
         }}
       />
 
@@ -110,19 +111,19 @@ function Gullak({ pct, coinAction }: { pct: number; coinAction: "insert" | "remo
         <div
           key={coinAction}
           className={`absolute z-30 ${coinAction === "insert" ? "animate-coin-insert" : "animate-coin-remove"}`}
-          style={{ top: "14%", left: "50%", width: 34, height: 34, perspective: 400 }}
+          style={{ top: "14%", left: "50%", width: 64, height: 64, perspective: 400 }}
         >
           {/* Coin face */}
           <div style={{
-            width: 34,
-            height: 34,
+            width: 64,
+            height: 64,
             borderRadius: "50%",
             background: "radial-gradient(circle at 35% 35%, #fde68a, #f59e0b 50%, #b45309)",
-            boxShadow: "inset -3px -3px 6px rgba(0,0,0,0.3), inset 2px 2px 4px rgba(255,255,255,0.5), 0 4px 12px rgba(0,0,0,0.4)",
+            boxShadow: "inset -5px -5px 10px rgba(0,0,0,0.3), inset 3px 3px 6px rgba(255,255,255,0.5), 0 6px 20px rgba(0,0,0,0.4)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: 13,
+            fontSize: 22,
             fontWeight: "bold",
             color: "#78350f",
             userSelect: "none",
@@ -482,145 +483,67 @@ function InlineAmountInput({
 }) {
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
-  const [delta, setDelta] = useState(0);          // live swipe px offset
-  const [fired, setFired] = useState<"add" | "sub" | null>(null); // flash feedback
-  const startX = useRef<number | null>(null);
-  const THRESHOLD = 72;
-
-  function getX(e: React.TouchEvent | React.MouseEvent) {
-    return "touches" in e ? e.touches[0].clientX : e.clientX;
-  }
-
-  function onStart(e: React.TouchEvent | React.MouseEvent) {
-    startX.current = getX(e);
-  }
-
-  function onMove(e: React.TouchEvent | React.MouseEvent) {
-    if (startX.current === null) return;
-    const raw = getX(e) - startX.current;
-    setDelta(Math.max(-THRESHOLD, Math.min(THRESHOLD, raw)));
-  }
+  const [flash, setFlash] = useState<"add" | "sub" | null>(null);
 
   async function trigger(action: "add" | "sub") {
     const val = parseFloat(amount);
     if (isNaN(val) || val <= 0) return;
-    const signed = action === "add" ? val : -val;
-    setFired(action);
     setLoading(true);
-    await onDeposit(signed);
+    setFlash(action);
+    await onDeposit(action === "add" ? val : -val);
     setAmount("");
     setLoading(false);
-    setTimeout(() => setFired(null), 700);
+    setTimeout(() => setFlash(null), 600);
   }
 
-  async function onEnd() {
-    if (startX.current === null) return;
-    if (Math.abs(delta) >= THRESHOLD) {
-      await trigger(delta < 0 ? "add" : "sub");
-    }
-    setDelta(0);
-    startX.current = null;
-  }
-
-  const swipeDir = delta < -20 ? "add" : delta > 20 ? "sub" : null;
-  const addReady  = delta <= -(THRESHOLD - 4);
-  const subReady  = delta >= (THRESHOLD - 4);
-
-  const addPct  = Math.min(1, Math.max(0, -delta / THRESHOLD));
-  const subPct  = Math.min(1, Math.max(0,  delta / THRESHOLD));
+  const canSubmit = !loading && parseFloat(amount) > 0;
 
   return (
-    <div className="w-full mt-2 select-none">
-      <div className="relative flex items-center" style={{ height: 72 }}>
+    <div className="w-full flex justify-center mt-2">
+      <div className="flex items-center gap-4">
 
-        {/* ── Left: + (Add) ── */}
-        <button
-          type="button"
-          onClick={() => trigger("add")}
-          className="absolute left-0 flex items-center justify-end overflow-hidden focus:outline-none active:scale-95 transition-transform"
-          style={{ width: "17%", height: "100%" }}
-        >
-          <div
-            className="flex items-center justify-center transition-all duration-150 w-full h-full"
-            style={{
-              clipPath: "polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%)",
-              background: addReady ? "#C2955A" : `rgba(194,149,90,${0.12 + addPct * 0.75})`,
-            }}
-          >
-            <span className="font-bold text-2xl pr-4"
-              style={{ color: addReady ? "#fff" : `rgba(166,120,64,${0.5 + addPct * 0.5})` }}>
-              +
-            </span>
-          </div>
-        </button>
-
-        {/* ── Right: − (Remove) ── */}
+        {/* − button */}
         <button
           type="button"
           onClick={() => trigger("sub")}
-          className="absolute right-0 flex items-center justify-start overflow-hidden focus:outline-none active:scale-95 transition-transform"
-          style={{ width: "17%", height: "100%" }}
+          disabled={!canSubmit}
+          className={`w-14 h-14 rounded-full border-2 flex items-center justify-center text-2xl font-bold transition-all active:scale-90 shadow-md disabled:opacity-25 disabled:shadow-none ${
+            flash === "sub" ? "bg-red-500 border-red-500 text-white shadow-red-200" : "bg-red-50 border-red-300 text-red-500 hover:bg-red-100 shadow-red-100"
+          }`}
         >
-          <div
-            className="flex items-center justify-center transition-all duration-150 w-full h-full"
-            style={{
-              clipPath: "polygon(22px 0, 100% 0, 100% 100%, 22px 100%, 0 50%)",
-              background: subReady ? "#ef4444" : `rgba(239,68,68,${0.10 + subPct * 0.72})`,
-            }}
-          >
-            <span className="font-bold text-2xl pl-4"
-              style={{ color: subReady ? "#fff" : `rgba(185,28,28,${0.5 + subPct * 0.5})` }}>
-              −
-            </span>
-          </div>
+          −
         </button>
 
-        {/* ── Centre input pill ── */}
-        <div
-          className="absolute z-10"
-          style={{
-            left: "50%",
-            transform: `translateX(calc(-50% + ${delta}px))`,
-            transition: delta === 0 ? "transform 0.3s cubic-bezier(.34,1.56,.64,1)" : "none",
-            width: 160,
-          }}
-        >
-          <div
-            className={`flex flex-col items-center justify-center rounded-3xl shadow-lg border-2 cursor-grab active:cursor-grabbing touch-none py-2 px-3 ${
-              fired === "add"  ? "bg-sand-50 border-sand-400 shadow-sand-200" :
-              fired === "sub"  ? "bg-red-50 border-red-300 shadow-red-100" :
-              addReady         ? "bg-sand-500 border-sand-500 shadow-sand-300" :
-              subReady         ? "bg-red-500 border-red-500 shadow-red-200" :
-              "bg-white border-slate-200 shadow-slate-100"
-            }`}
-            onMouseDown={onStart}
-            onMouseMove={onMove}
-            onMouseUp={onEnd}
-            onMouseLeave={onEnd}
-            onTouchStart={onStart}
-            onTouchMove={onMove}
-            onTouchEnd={onEnd}
-          >
-            <span className={`text-xs font-semibold mb-0.5 ${addReady || subReady ? "text-white/80" : "text-slate-400"}`}>₹</span>
-            <input
-              type="number"
-              inputMode="numeric"
-              min={1}
-              placeholder={loading ? "…" : "0"}
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              onMouseDown={(e) => e.stopPropagation()}
-              className={`w-full text-center text-2xl font-extrabold bg-transparent focus:outline-none ${
-                addReady || subReady ? "text-white placeholder:text-white/50" : "text-slate-700 placeholder:text-slate-200"
-              }`}
-              style={{ width: 120 }}
-            />
-          </div>
+        {/* Amount input */}
+        <div className={`flex items-center gap-1 border-2 rounded-2xl px-5 py-3 transition-all ${
+          flash === "add" ? "border-[#C2955A] bg-[#FDF8F0]" :
+          flash === "sub" ? "border-red-300 bg-red-50" :
+          "border-slate-200 bg-white"
+        }`} style={{ width: 148 }}>
+          <span className="text-slate-400 font-semibold text-sm">₹</span>
+          <input
+            type="number"
+            inputMode="numeric"
+            min={1}
+            placeholder="0"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            className="w-full text-center text-2xl font-extrabold text-slate-700 bg-transparent focus:outline-none placeholder:text-slate-200"
+          />
         </div>
-      </div>
 
-      {/* Subtle hint */}
-      <p className="text-center text-xs text-slate-300 mt-1 pointer-events-none">drag left to add · drag right to remove</p>
+        {/* + button */}
+        <button
+          type="button"
+          onClick={() => trigger("add")}
+          disabled={!canSubmit}
+          className={`w-14 h-14 rounded-full border-2 flex items-center justify-center text-2xl font-bold transition-all active:scale-90 shadow-md disabled:opacity-25 disabled:shadow-none ${
+            flash === "add" ? "bg-[#C2955A] border-[#C2955A] text-white shadow-[#E2C48E]" : "bg-[#FDF8F0] border-[#C2955A] text-[#C2955A] hover:bg-[#FAF3E6] shadow-[#EDD9B0]"
+          }`}
+        >
+          +
+        </button>
+      </div>
     </div>
   );
 }
@@ -693,12 +616,12 @@ function GullakFlipCard({
   return (
     <>
       {/* ── Flip card (front = gullak, back = balance) ── */}
-      <div className="relative" style={{ width: 400, height: 460 }}>
+      <div className="relative w-full" style={{ height: 480 }}>
       {/* Shatter overlay */}
-      <GullakShatter active={!!breaking} w={400} h={460} />
+      <GullakShatter active={!!breaking} w={360} h={360} />
       <div
         className={`flip-card cursor-pointer select-none ${breaking ? "opacity-0" : ""}`}
-        style={{ width: 400, height: 460, transition: breaking ? "opacity 0.1s 0.15s" : "none" }}
+        style={{ width: "100%", height: 480, transition: breaking ? "opacity 0.1s 0.15s" : "none" }}
         onClick={() => { if (!breaking) setFlipped((f) => { onFlip?.(!f); return !f; }); }}
         title={flipped ? "Click to see gullak" : "Click for details"}
       >
@@ -709,7 +632,7 @@ function GullakFlipCard({
           </div>
 
           {/* Back: balance summary */}
-          <div className="flip-back rounded-3xl border border-slate-100 shadow-xl bg-white flex flex-col items-center justify-center gap-4 p-6" style={{ width: 400, height: 460 }}>
+          <div className="flip-back rounded-3xl border border-slate-100 shadow-xl bg-white flex flex-col items-center justify-center gap-4 p-6 w-full" style={{ height: 480 }}>
             <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Balance</p>
             <div className="text-center">
               <p className="text-6xl font-extrabold text-slate-800 tabular-nums">{fillPct}%</p>
@@ -719,9 +642,9 @@ function GullakFlipCard({
               <div className="h-full rounded-full transition-all duration-700" style={{ width: `${fillPct}%`, background: barColor }} />
             </div>
             <div className="w-full grid grid-cols-2 gap-3">
-              <div className="bg-sand-50 rounded-2xl p-3 text-center">
-                <p className="text-xs font-bold uppercase text-sand-500 mb-1">Saved</p>
-                <p className="text-sm font-extrabold text-sand-700">{fmt(savedAmount)}</p>
+              <div className="bg-[#FDF8F0] rounded-2xl p-3 text-center">
+                <p className="text-xs font-bold uppercase text-[#D4AA72] mb-1">Saved</p>
+                <p className="text-sm font-extrabold text-[#A67840]">{fmt(savedAmount)}</p>
               </div>
               <div className="bg-red-50 rounded-2xl p-3 text-center">
                 <p className="text-xs font-bold uppercase text-red-400 mb-1">Left</p>
@@ -780,8 +703,8 @@ function MonthYearPicker({
       <button
         type="button"
         onClick={() => { setPickerYear(initYear); setOpen((o) => !o); }}
-        className={`w-full flex items-center justify-between border rounded-xl px-4 py-3 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-sand-500 ${
-          value ? "border-sand-400 bg-sand-50 text-sand-700 font-semibold" : "border-slate-200 bg-white text-slate-400"
+        className={`w-full flex items-center justify-between border rounded-xl px-4 py-3 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#D4AA72] ${
+          value ? "border-[#E2C48E] bg-[#FDF8F0] text-[#A67840] font-semibold" : "border-slate-200 bg-white text-slate-400"
         }`}
       >
         <span>{displayLabel}</span>
@@ -825,10 +748,10 @@ function MonthYearPicker({
                   onClick={() => select(i)}
                   className={`py-2 rounded-xl text-xs font-semibold transition-all ${
                     active
-                      ? "bg-sand-600 text-white shadow-sm"
+                      ? "bg-[#C2955A] text-white shadow-sm"
                       : disabled
                       ? "text-slate-300 cursor-not-allowed"
-                      : "text-slate-600 hover:bg-sand-50 hover:text-sand-700"
+                      : "text-slate-600 hover:bg-[#FDF8F0] hover:text-[#A67840]"
                   }`}
                 >
                   {m}
@@ -952,30 +875,32 @@ export default function Home() {
     setAddForm({ title: "", targetAmount: "", targetDate: "", monthlyContribution: "", initialSaved: "", divideEqually: true, monthlyPlan: {} });
     setShowAddModal(false);
     setSaving(false);
+    // Add to local state immediately so it's visible before fetchGoals resolves
+    setGoals((prev) => [...prev, created]);
     setSelectedId(created.id);
     fetchGoals();
   }
 
   return (
-    <div className="bg-slate-50 min-h-screen text-slate-800 antialiased flex flex-col">
+    <div className="min-h-screen text-slate-800 antialiased flex flex-col" style={{ background: "#F5EDD8" }}>
 
       {/* ── Header ── */}
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
         <div className="flex items-center justify-between px-4 h-14 md:px-8 md:h-16 max-w-2xl mx-auto w-full">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 md:w-8 md:h-8 bg-sand-600 rounded-lg flex items-center justify-center">
+            <div className="w-7 h-7 md:w-8 md:h-8 bg-[#C2955A] rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-base md:text-xl">G</span>
             </div>
             <span className="text-base md:text-xl font-bold tracking-tight">
-              Gullak <span className="text-sand-600">Wealth</span>
+              gullak<span className="text-[#C2955A]">.online</span>
             </span>
           </div>
           <button
             onClick={() => setShowAddModal(true)}
-            className="flex items-center gap-1.5 bg-sand-600 text-white text-xs md:text-sm px-3 py-2 md:px-5 md:py-2.5 rounded-full font-semibold hover:bg-sand-700 active:scale-95 transition-all shadow-sm"
+            className="flex items-center gap-1.5 bg-[#C2955A] text-white text-xs md:text-sm px-3 py-2 md:px-5 md:py-2.5 rounded-full font-semibold hover:bg-[#A67840] active:scale-95 transition-all shadow-sm"
           >
             <PlusIcon className="w-3.5 h-3.5 md:w-4 md:h-4" />
-            New Goal
+            Add Gullak
           </button>
         </div>
       </header>
@@ -998,7 +923,7 @@ export default function Home() {
                     <button
                       key={g.id}
                       onClick={() => setSelectedId(g.id)}
-                      className="bg-white rounded-3xl shadow-md border border-slate-100 flex flex-col items-center pt-5 pb-4 px-3 gap-2 active:scale-95 transition-all hover:shadow-lg hover:border-sand-200"
+                      className="bg-white rounded-3xl shadow-md border border-slate-100 flex flex-col items-center pt-5 pb-4 px-3 gap-2 active:scale-95 transition-all hover:shadow-lg hover:border-[#F3E6CC]"
                     >
                       {/* Mini gullak with color split */}
                       <div className="relative" style={{ width: 100, height: 110 }}>
@@ -1014,7 +939,7 @@ export default function Home() {
                           style={{ mixBlendMode: "multiply", filter: "grayscale(1) brightness(1.05)", clipPath: `inset(0 0 ${gpct}% 0)` }} />
                       </div>
                       {/* % ring label */}
-                      <div className={`text-xs font-extrabold px-2.5 py-0.5 rounded-full ${gpct >= 100 ? "bg-green-100 text-green-700" : gpct >= 50 ? "bg-sand-50 text-sand-700" : "bg-slate-100 text-slate-500"}`}>
+                      <div className={`text-xs font-extrabold px-2.5 py-0.5 rounded-full ${gpct >= 100 ? "bg-green-100 text-green-700" : gpct >= 50 ? "bg-[#FDF8F0] text-[#A67840]" : "bg-slate-100 text-slate-500"}`}>
                         {gpct}%
                       </div>
                       <p className="text-xs font-bold text-slate-700 text-center leading-tight line-clamp-2">{g.title}</p>
@@ -1030,24 +955,25 @@ export default function Home() {
           {!loading && goal && (
             <>
               {/* Back button + title */}
-              <div className="w-full flex items-center gap-3">
+              <div className="w-full flex items-center gap-4">
                 <button
                   onClick={() => { setSelectedId(null); setGullakFlipped(false); }}
-                  className="flex items-center gap-1 text-sm text-slate-500 hover:text-sand-600 transition-colors font-semibold"
+                  className="flex items-center gap-1 text-sm text-slate-500 hover:text-[#C2955A] transition-colors font-semibold shrink-0"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                   </svg>
                   All Gullaks
                 </button>
-                <div className="flex-1">
+                <div className="w-px h-6 bg-slate-200 shrink-0" />
+                <div className="flex-1 min-w-0">
                   <h1 className="text-lg font-extrabold text-slate-800 truncate">{goal.title}</h1>
-                  <p className="text-xs text-sand-600 font-semibold">{fmt(goal.targetAmount)}</p>
+                  <p className="text-xs text-[#C2955A] font-semibold">{fmt(goal.targetAmount)}</p>
                 </div>
               </div>
 
               {/* Card */}
-              <div className="bg-white w-full rounded-3xl shadow-xl border border-slate-100 flex flex-col items-center px-6 pt-8 pb-6 gap-4">
+              <div className="bg-white w-full rounded-3xl shadow-xl border border-slate-100 flex flex-col items-center px-4 pt-8 pb-6 gap-4 overflow-hidden">
                 <GullakFlipCard
                   pct={pct}
                   coinAction={coinAction}
@@ -1106,9 +1032,9 @@ export default function Home() {
               <p className="text-slate-500 mb-5 text-sm">No gullaks yet. Create your first one!</p>
               <button
                 onClick={() => setShowAddModal(true)}
-                className="bg-sand-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-sand-700 active:scale-95 transition-all"
+                className="bg-[#C2955A] text-white px-6 py-3 rounded-2xl font-bold hover:bg-[#A67840] active:scale-95 transition-all"
               >
-                + Create Goal
+                + Add Gullak
               </button>
             </div>
           )}
@@ -1134,7 +1060,7 @@ export default function Home() {
             <div className="text-5xl">🔨</div>
             <h2 className="text-xl font-extrabold text-slate-800 text-center">Break the Gullak?</h2>
             <p className="text-sm text-slate-500 text-center leading-relaxed">
-              You&apos;ve saved <span className="font-bold text-sand-600">{fmt(goal.savedAmount)}</span> in <span className="font-bold">{goal.title}</span>.<br/>
+              You&apos;ve saved <span className="font-bold text-[#C2955A]">{fmt(goal.savedAmount)}</span> in <span className="font-bold">{goal.title}</span>.<br/>
               Breaking it will remove this goal permanently.
             </p>
             <div className="w-full flex gap-3 mt-2">
@@ -1168,7 +1094,7 @@ export default function Home() {
             </div>
             <div className="px-5 pt-4 pb-10 md:px-8 md:py-6">
               <div className="flex items-center justify-between mb-5">
-                <h2 className="text-lg font-bold text-slate-800">New Savings Goal</h2>
+                <h2 className="text-lg font-bold text-slate-800">Add a Gullak</h2>
                 <button onClick={() => setShowAddModal(false)} className="text-slate-400 hover:text-slate-600 text-2xl leading-none p-1 -mr-1">×</button>
               </div>
               <form onSubmit={createGoal} className="space-y-4">
@@ -1179,7 +1105,7 @@ export default function Home() {
                     value={addForm.title}
                     onChange={(e) => setAddForm((f) => ({ ...f, title: e.target.value }))}
                     placeholder="e.g. Emergency Fund"
-                    className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sand-500"
+                    className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#D4AA72]"
                   />
                 </div>
                 <div>
@@ -1192,7 +1118,7 @@ export default function Home() {
                     value={addForm.targetAmount}
                     onChange={(e) => setAddForm((f) => ({ ...f, targetAmount: e.target.value }))}
                     placeholder="500000"
-                    className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sand-500"
+                    className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#D4AA72]"
                   />
                 </div>
                 <MonthYearPicker
@@ -1210,12 +1136,12 @@ export default function Home() {
                     onClick={() => setAddForm((f) => ({ ...f, divideEqually: !f.divideEqually }))}
                     className={`flex items-center gap-2.5 w-full border rounded-xl px-4 py-3 text-sm transition-all ${
                       addForm.divideEqually
-                        ? "border-sand-500 bg-sand-50 text-sand-700"
+                        ? "border-[#D4AA72] bg-[#FDF8F0] text-[#A67840]"
                         : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
                     }`}
                   >
                     <span className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-                      addForm.divideEqually ? "border-sand-600 bg-sand-600" : "border-slate-300"
+                      addForm.divideEqually ? "border-[#C2955A] bg-[#C2955A]" : "border-slate-300"
                     }`}>
                       {addForm.divideEqually && (
                         <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 10 8">
@@ -1232,7 +1158,7 @@ export default function Home() {
                       )}
                     </span>
                     {addForm.divideEqually && addFormMonths.length > 0 && (
-                      <span className="text-xs text-sand-500">over {addFormMonths.length} months</span>
+                      <span className="text-xs text-[#D4AA72]">over {addFormMonths.length} months</span>
                     )}
                   </button>
 
@@ -1262,7 +1188,7 @@ export default function Home() {
                                   }))
                                 }
                                 placeholder="0"
-                                className="flex-1 border border-slate-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sand-500 text-right"
+                                className="flex-1 border border-slate-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#D4AA72] text-right"
                               />
                             </div>
                           );
@@ -1299,7 +1225,7 @@ export default function Home() {
                     value={addForm.initialSaved}
                     onChange={(e) => setAddForm((f) => ({ ...f, initialSaved: e.target.value }))}
                     placeholder="0"
-                    className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sand-500"
+                    className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#D4AA72]"
                   />
                   <p className="text-xs text-slate-400 mt-1">Any money already set aside for this goal?</p>
                 </div>
@@ -1314,9 +1240,9 @@ export default function Home() {
                   <button
                     type="submit"
                     disabled={saving}
-                    className="flex-1 bg-sand-600 hover:bg-sand-700 text-white rounded-xl py-3 text-sm font-semibold active:scale-95 transition-all disabled:opacity-60"
+                    className="flex-1 bg-[#C2955A] hover:bg-[#A67840] text-white rounded-xl py-3 text-sm font-semibold active:scale-95 transition-all disabled:opacity-60"
                   >
-                    {saving ? "Creating…" : "Create Goal"}
+                    {saving ? "Creating…" : "Add Gullak"}
                   </button>
                 </div>
               </form>
