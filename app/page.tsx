@@ -81,7 +81,7 @@ function generateCoins(pct: number): Coin[] {
 function Gullak({ pct, coinAction }: { pct: number; coinAction: "insert" | "remove" | null }) {
   const coins = generateCoins(pct);
   return (
-    <div className="relative flex items-center justify-center w-full" style={{ height: 480 }}>
+    <div className="relative flex items-center justify-center w-full" style={{ height: 340 }}>
       {/* Full-color layer */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
@@ -476,18 +476,26 @@ function InlineAmountInput({
   savedAmount,
   targetAmount,
   onDeposit,
+  scrollToRef,
 }: {
   savedAmount: number;
   targetAmount: number;
   onDeposit: (val: number) => Promise<void>;
+  scrollToRef?: React.RefObject<HTMLElement | null>;
 }) {
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
   const [flash, setFlash] = useState<"add" | "sub" | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   async function trigger(action: "add" | "sub") {
     const val = parseFloat(amount);
     if (isNaN(val) || val <= 0) return;
+    // Dismiss keyboard and scroll to gullak before animation plays
+    inputRef.current?.blur();
+    if (scrollToRef?.current) {
+      scrollToRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
     setLoading(true);
     setFlash(action);
     await onDeposit(action === "add" ? val : -val);
@@ -522,6 +530,7 @@ function InlineAmountInput({
         }`} style={{ width: 148 }}>
           <span className="text-slate-400 font-semibold text-sm">₹</span>
           <input
+            ref={inputRef}
             type="number"
             inputMode="numeric"
             min={1}
@@ -616,12 +625,12 @@ function GullakFlipCard({
   return (
     <>
       {/* ── Flip card (front = gullak, back = balance) ── */}
-      <div className="relative w-full" style={{ height: 480 }}>
+      <div className="relative w-full" style={{ height: 340 }}>
       {/* Shatter overlay */}
       <GullakShatter active={!!breaking} w={360} h={360} />
       <div
         className={`flip-card cursor-pointer select-none ${breaking ? "opacity-0" : ""}`}
-        style={{ width: "100%", height: 480, transition: breaking ? "opacity 0.1s 0.15s" : "none" }}
+        style={{ width: "100%", height: 340, transition: breaking ? "opacity 0.1s 0.15s" : "none" }}
         onClick={() => { if (!breaking) setFlipped((f) => { onFlip?.(!f); return !f; }); }}
         title={flipped ? "Click to see gullak" : "Click for details"}
       >
@@ -632,7 +641,7 @@ function GullakFlipCard({
           </div>
 
           {/* Back: balance summary */}
-          <div className="flip-back rounded-3xl border border-slate-100 shadow-xl bg-white flex flex-col items-center justify-center gap-4 p-6 w-full" style={{ height: 480 }}>
+          <div className="flip-back rounded-3xl border border-slate-100 shadow-xl bg-white flex flex-col items-center justify-center gap-4 p-6 w-full" style={{ height: 340 }}>
             <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Balance</p>
             <div className="text-center">
               <p className="text-6xl font-extrabold text-slate-800 tabular-nums">{fillPct}%</p>
@@ -784,6 +793,7 @@ export default function Home() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showBreakConfirm, setShowBreakConfirm] = useState(false);
   const [breaking, setBreaking] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const goal = selectedId ? (goals.find((g) => g.id === selectedId) ?? null) : null;
   const pct = goal ? Math.min(100, Math.round((goal.savedAmount / goal.targetAmount) * 100)) : 0;
@@ -973,7 +983,7 @@ export default function Home() {
               </div>
 
               {/* Card */}
-              <div className="bg-white w-full rounded-3xl shadow-xl border border-slate-100 flex flex-col items-center px-4 pt-8 pb-6 gap-4 overflow-hidden">
+              <div ref={cardRef} className="bg-white w-full rounded-3xl shadow-xl border border-slate-100 flex flex-col items-center px-4 pt-4 pb-4 gap-3 overflow-hidden">
                 <GullakFlipCard
                   pct={pct}
                   coinAction={coinAction}
@@ -987,6 +997,7 @@ export default function Home() {
                   <InlineAmountInput
                     savedAmount={goal.savedAmount}
                     targetAmount={goal.targetAmount}
+                    scrollToRef={cardRef}
                     onDeposit={async (val) => {
                       const res = await fetch(`/api/goals/${goal.id}`, {
                         method: "PATCH",
