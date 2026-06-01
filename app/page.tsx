@@ -587,9 +587,9 @@ function InlineAmountInput({
         >
           <div
             className={`flex flex-col items-center justify-center rounded-3xl shadow-lg border-2 cursor-grab active:cursor-grabbing touch-none py-2 px-3 ${
-              fired === "add"  ? "bg-teal-50 border-teal-400 shadow-teal-200" :
+              fired === "add"  ? "bg-sand-50 border-sand-400 shadow-sand-200" :
               fired === "sub"  ? "bg-red-50 border-red-300 shadow-red-100" :
-              addReady         ? "bg-teal-500 border-teal-500 shadow-teal-300" :
+              addReady         ? "bg-sand-500 border-sand-500 shadow-sand-300" :
               subReady         ? "bg-red-500 border-red-500 shadow-red-200" :
               "bg-white border-slate-200 shadow-slate-100"
             }`}
@@ -719,9 +719,9 @@ function GullakFlipCard({
               <div className="h-full rounded-full transition-all duration-700" style={{ width: `${fillPct}%`, background: barColor }} />
             </div>
             <div className="w-full grid grid-cols-2 gap-3">
-              <div className="bg-teal-50 rounded-2xl p-3 text-center">
-                <p className="text-xs font-bold uppercase text-teal-500 mb-1">Saved</p>
-                <p className="text-sm font-extrabold text-teal-700">{fmt(savedAmount)}</p>
+              <div className="bg-sand-50 rounded-2xl p-3 text-center">
+                <p className="text-xs font-bold uppercase text-sand-500 mb-1">Saved</p>
+                <p className="text-sm font-extrabold text-sand-700">{fmt(savedAmount)}</p>
               </div>
               <div className="bg-red-50 rounded-2xl p-3 text-center">
                 <p className="text-xs font-bold uppercase text-red-400 mb-1">Left</p>
@@ -780,8 +780,8 @@ function MonthYearPicker({
       <button
         type="button"
         onClick={() => { setPickerYear(initYear); setOpen((o) => !o); }}
-        className={`w-full flex items-center justify-between border rounded-xl px-4 py-3 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-teal-500 ${
-          value ? "border-teal-400 bg-teal-50 text-teal-700 font-semibold" : "border-slate-200 bg-white text-slate-400"
+        className={`w-full flex items-center justify-between border rounded-xl px-4 py-3 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-sand-500 ${
+          value ? "border-sand-400 bg-sand-50 text-sand-700 font-semibold" : "border-slate-200 bg-white text-slate-400"
         }`}
       >
         <span>{displayLabel}</span>
@@ -825,10 +825,10 @@ function MonthYearPicker({
                   onClick={() => select(i)}
                   className={`py-2 rounded-xl text-xs font-semibold transition-all ${
                     active
-                      ? "bg-teal-600 text-white shadow-sm"
+                      ? "bg-sand-600 text-white shadow-sm"
                       : disabled
                       ? "text-slate-300 cursor-not-allowed"
-                      : "text-slate-600 hover:bg-teal-50 hover:text-teal-700"
+                      : "text-slate-600 hover:bg-sand-50 hover:text-sand-700"
                   }`}
                 >
                   {m}
@@ -963,16 +963,16 @@ export default function Home() {
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
         <div className="flex items-center justify-between px-4 h-14 md:px-8 md:h-16 max-w-2xl mx-auto w-full">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 md:w-8 md:h-8 bg-teal-600 rounded-lg flex items-center justify-center">
+            <div className="w-7 h-7 md:w-8 md:h-8 bg-sand-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-base md:text-xl">G</span>
             </div>
             <span className="text-base md:text-xl font-bold tracking-tight">
-              Gullak <span className="text-teal-600">Wealth</span>
+              Gullak <span className="text-sand-600">Wealth</span>
             </span>
           </div>
           <button
             onClick={() => setShowAddModal(true)}
-            className="flex items-center gap-1.5 bg-teal-600 text-white text-xs md:text-sm px-3 py-2 md:px-5 md:py-2.5 rounded-full font-semibold hover:bg-teal-700 active:scale-95 transition-all shadow-sm"
+            className="flex items-center gap-1.5 bg-sand-600 text-white text-xs md:text-sm px-3 py-2 md:px-5 md:py-2.5 rounded-full font-semibold hover:bg-sand-700 active:scale-95 transition-all shadow-sm"
           >
             <PlusIcon className="w-3.5 h-3.5 md:w-4 md:h-4" />
             New Goal
@@ -998,7 +998,7 @@ export default function Home() {
                     <button
                       key={g.id}
                       onClick={() => setSelectedId(g.id)}
-                      className="bg-white rounded-3xl shadow-md border border-slate-100 flex flex-col items-center pt-5 pb-4 px-3 gap-2 active:scale-95 transition-all hover:shadow-lg hover:border-teal-200"
+                      className="bg-white rounded-3xl shadow-md border border-slate-100 flex flex-col items-center pt-5 pb-4 px-3 gap-2 active:scale-95 transition-all hover:shadow-lg hover:border-sand-200"
                     >
                       {/* Mini gullak with color split */}
                       <div className="relative" style={{ width: 100, height: 110 }}>
@@ -1014,7 +1014,7 @@ export default function Home() {
                           style={{ mixBlendMode: "multiply", filter: "grayscale(1) brightness(1.05)", clipPath: `inset(0 0 ${gpct}% 0)` }} />
                       </div>
                       {/* % ring label */}
-                      <div className={`text-xs font-extrabold px-2.5 py-0.5 rounded-full ${gpct >= 100 ? "bg-green-100 text-green-700" : gpct >= 50 ? "bg-teal-50 text-teal-700" : "bg-slate-100 text-slate-500"}`}>
+                      <div className={`text-xs font-extrabold px-2.5 py-0.5 rounded-full ${gpct >= 100 ? "bg-green-100 text-green-700" : gpct >= 50 ? "bg-sand-50 text-sand-700" : "bg-slate-100 text-slate-500"}`}>
                         {gpct}%
                       </div>
                       <p className="text-xs font-bold text-slate-700 text-center leading-tight line-clamp-2">{g.title}</p>
@@ -1033,7 +1033,7 @@ export default function Home() {
               <div className="w-full flex items-center gap-3">
                 <button
                   onClick={() => { setSelectedId(null); setGullakFlipped(false); }}
-                  className="flex items-center gap-1 text-sm text-slate-500 hover:text-teal-600 transition-colors font-semibold"
+                  className="flex items-center gap-1 text-sm text-slate-500 hover:text-sand-600 transition-colors font-semibold"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -1042,7 +1042,7 @@ export default function Home() {
                 </button>
                 <div className="flex-1">
                   <h1 className="text-lg font-extrabold text-slate-800 truncate">{goal.title}</h1>
-                  <p className="text-xs text-teal-600 font-semibold">{fmt(goal.targetAmount)}</p>
+                  <p className="text-xs text-sand-600 font-semibold">{fmt(goal.targetAmount)}</p>
                 </div>
               </div>
 
@@ -1106,7 +1106,7 @@ export default function Home() {
               <p className="text-slate-500 mb-5 text-sm">No gullaks yet. Create your first one!</p>
               <button
                 onClick={() => setShowAddModal(true)}
-                className="bg-teal-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-teal-700 active:scale-95 transition-all"
+                className="bg-sand-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-sand-700 active:scale-95 transition-all"
               >
                 + Create Goal
               </button>
@@ -1134,7 +1134,7 @@ export default function Home() {
             <div className="text-5xl">🔨</div>
             <h2 className="text-xl font-extrabold text-slate-800 text-center">Break the Gullak?</h2>
             <p className="text-sm text-slate-500 text-center leading-relaxed">
-              You&apos;ve saved <span className="font-bold text-teal-600">{fmt(goal.savedAmount)}</span> in <span className="font-bold">{goal.title}</span>.<br/>
+              You&apos;ve saved <span className="font-bold text-sand-600">{fmt(goal.savedAmount)}</span> in <span className="font-bold">{goal.title}</span>.<br/>
               Breaking it will remove this goal permanently.
             </p>
             <div className="w-full flex gap-3 mt-2">
@@ -1179,7 +1179,7 @@ export default function Home() {
                     value={addForm.title}
                     onChange={(e) => setAddForm((f) => ({ ...f, title: e.target.value }))}
                     placeholder="e.g. Emergency Fund"
-                    className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sand-500"
                   />
                 </div>
                 <div>
@@ -1192,7 +1192,7 @@ export default function Home() {
                     value={addForm.targetAmount}
                     onChange={(e) => setAddForm((f) => ({ ...f, targetAmount: e.target.value }))}
                     placeholder="500000"
-                    className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sand-500"
                   />
                 </div>
                 <MonthYearPicker
@@ -1210,12 +1210,12 @@ export default function Home() {
                     onClick={() => setAddForm((f) => ({ ...f, divideEqually: !f.divideEqually }))}
                     className={`flex items-center gap-2.5 w-full border rounded-xl px-4 py-3 text-sm transition-all ${
                       addForm.divideEqually
-                        ? "border-teal-500 bg-teal-50 text-teal-700"
+                        ? "border-sand-500 bg-sand-50 text-sand-700"
                         : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
                     }`}
                   >
                     <span className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-                      addForm.divideEqually ? "border-teal-600 bg-teal-600" : "border-slate-300"
+                      addForm.divideEqually ? "border-sand-600 bg-sand-600" : "border-slate-300"
                     }`}>
                       {addForm.divideEqually && (
                         <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 10 8">
@@ -1232,7 +1232,7 @@ export default function Home() {
                       )}
                     </span>
                     {addForm.divideEqually && addFormMonths.length > 0 && (
-                      <span className="text-xs text-teal-500">over {addFormMonths.length} months</span>
+                      <span className="text-xs text-sand-500">over {addFormMonths.length} months</span>
                     )}
                   </button>
 
@@ -1262,7 +1262,7 @@ export default function Home() {
                                   }))
                                 }
                                 placeholder="0"
-                                className="flex-1 border border-slate-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 text-right"
+                                className="flex-1 border border-slate-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sand-500 text-right"
                               />
                             </div>
                           );
@@ -1299,7 +1299,7 @@ export default function Home() {
                     value={addForm.initialSaved}
                     onChange={(e) => setAddForm((f) => ({ ...f, initialSaved: e.target.value }))}
                     placeholder="0"
-                    className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sand-500"
                   />
                   <p className="text-xs text-slate-400 mt-1">Any money already set aside for this goal?</p>
                 </div>
@@ -1314,7 +1314,7 @@ export default function Home() {
                   <button
                     type="submit"
                     disabled={saving}
-                    className="flex-1 bg-teal-600 hover:bg-teal-700 text-white rounded-xl py-3 text-sm font-semibold active:scale-95 transition-all disabled:opacity-60"
+                    className="flex-1 bg-sand-600 hover:bg-sand-700 text-white rounded-xl py-3 text-sm font-semibold active:scale-95 transition-all disabled:opacity-60"
                   >
                     {saving ? "Creating…" : "Create Goal"}
                   </button>
