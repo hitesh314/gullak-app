@@ -136,7 +136,7 @@ function Gullak({ pct, coinAction }: { pct: number; coinAction: "insert" | "remo
 }
 
 function _OldGullak({ pct }: { pct: number }) {
-  const fillColor = pct < 40 ? "#fb923c" : pct < 75 ? "#14b8a6" : "#10b981";
+  const fillColor = pct < 40 ? "#fb923c" : pct < 75 ? "#C2955A" : "#10b981";
   const fillY = 340 - Math.round((pct / 100) * 240);
 
   return (
@@ -418,7 +418,7 @@ function ProgressChart({ goal }: { goal: Goal }) {
 
         {/* Expected line (dashed teal) */}
         {expPts && (
-          <polyline points={expPts} fill="none" stroke="#14b8a6" strokeWidth="2" strokeDasharray="5 3" strokeLinecap="round" strokeLinejoin="round" />
+          <polyline points={expPts} fill="none" stroke="#C2955A" strokeWidth="2" strokeDasharray="5 3" strokeLinecap="round" strokeLinejoin="round" />
         )}
 
         {/* Actual line (solid orange→green) */}
@@ -457,7 +457,7 @@ function ProgressChart({ goal }: { goal: Goal }) {
       {/* Legend */}
       <div className="flex items-center gap-4 justify-center mt-1">
         <div className="flex items-center gap-1.5">
-          <svg width="20" height="6"><line x1="0" y1="3" x2="20" y2="3" stroke="#14b8a6" strokeWidth="2" strokeDasharray="4 2" /></svg>
+          <svg width="20" height="6"><line x1="0" y1="3" x2="20" y2="3" stroke="#C2955A" strokeWidth="2" strokeDasharray="4 2" /></svg>
           <span className="text-xs text-slate-500">Expected</span>
         </div>
         <div className="flex items-center gap-1.5">
@@ -544,11 +544,11 @@ function InlineAmountInput({
             className="flex items-center justify-center transition-all duration-150 w-full h-full"
             style={{
               clipPath: "polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%)",
-              background: addReady ? "#0d9488" : `rgba(20,184,166,${0.12 + addPct * 0.75})`,
+              background: addReady ? "#C2955A" : `rgba(194,149,90,${0.12 + addPct * 0.75})`,
             }}
           >
             <span className="font-bold text-2xl pr-4"
-              style={{ color: addReady ? "#fff" : `rgba(15,118,110,${0.5 + addPct * 0.5})` }}>
+              style={{ color: addReady ? "#fff" : `rgba(166,120,64,${0.5 + addPct * 0.5})` }}>
               +
             </span>
           </div>
@@ -688,7 +688,7 @@ function GullakFlipCard({
   const targetAmount = goal?.targetAmount ?? 1;
   const remaining = Math.max(0, targetAmount - savedAmount);
   const fillPct = Math.min(100, pct);
-  const barColor = fillPct < 40 ? "#fb923c" : fillPct < 75 ? "#14b8a6" : "#10b981";
+  const barColor = fillPct < 40 ? "#fb923c" : fillPct < 75 ? "#C2955A" : "#10b981";
 
   return (
     <>
