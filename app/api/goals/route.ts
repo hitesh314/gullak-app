@@ -2,13 +2,24 @@ import { NextRequest, NextResponse } from "next/server";
 import { goals } from "@/lib/store";
 export type { Goal } from "@/lib/store";
 
-export async function GET() {
-  const total = goals.reduce((sum, g) => sum + g.savedAmount, 0);
-  const target = goals.reduce((sum, g) => sum + g.targetAmount, 0);
-  return NextResponse.json({ goals, total, target });
+function getUserId(req: NextRequest): string | null {
+  return req.cookies.get("gullak_uid")?.value ?? null;
+}
+
+export async function GET(req: NextRequest) {
+  const uid = getUserId(req);
+  if (!uid) return NextResponse.json({ error: "No session" }, { status: 401 });
+
+  const userGoals = goals.filter((g) => g.userId === uid);
+  const total = userGoals.reduce((sum, g) => sum + g.savedAmount, 0);
+  const target = userGoals.reduce((sum, g) => sum + g.targetAmount, 0);
+  return NextResponse.json({ goals: userGoals, total, target });
 }
 
 export async function POST(req: NextRequest) {
+  const uid = getUserId(req);
+  if (!uid) return NextResponse.json({ error: "No session" }, { status: 401 });
+
   const body = await req.json();
   const { title, targetAmount, emoji, color, monthlyContribution, monthlyPlan, startDate, targetDate, initialSaved } = body;
 
@@ -22,6 +33,7 @@ export async function POST(req: NextRequest) {
 
   const newGoal = {
     id: Date.now().toString(),
+    userId: uid,
     title,
     targetAmount: Number(targetAmount),
     savedAmount: saved,
