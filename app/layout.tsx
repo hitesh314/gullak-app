@@ -13,46 +13,52 @@ const APP_URL = "https://gullak.online";
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
   title: {
-    default: "Gullak — Personal Savings Tracker",
-    template: "%s | Gullak",
+    default: "Gullak.Online — Personal Savings Tracker",
+    template: "%s | Gullak.Online",
   },
   description:
-    "Gullak is a beautifully simple savings tracker. Set goals, plan monthly contributions, and watch your piggy bank fill up — one rupee at a time.",
+    "Gullak.Online is a beautifully simple savings tracker. Set goals, plan monthly contributions, and watch your piggy bank fill up — one rupee at a time. Free, private, and made for India.",
   keywords: [
     "savings tracker",
     "savings goals",
-    "personal finance",
-    "money savings",
+    "personal finance India",
+    "money savings app",
     "gullak",
-    "piggy bank",
-    "budget planner",
-    "monthly savings",
-    "India savings",
-    "rupee tracker",
+    "gullak online",
+    "piggy bank app",
+    "budget planner India",
+    "monthly savings planner",
+    "rupee savings tracker",
+    "free savings app",
+    "savings goal tracker",
+    "financial planning India",
   ],
-  authors: [{ name: "Gullak", url: APP_URL }],
-  creator: "Gullak",
+  authors: [{ name: "Gullak.Online", url: APP_URL }],
+  creator: "Gullak.Online",
+  publisher: "Gullak.Online",
+  category: "Finance",
   openGraph: {
     type: "website",
     url: APP_URL,
-    siteName: "Gullak",
-    title: "Gullak — Personal Savings Tracker",
+    siteName: "Gullak.Online",
+    title: "Gullak.Online — Personal Savings Tracker",
     description:
-      "Set savings goals, plan monthly contributions, and watch your gullak fill up. Simple, beautiful, and private.",
+      "Set savings goals, plan monthly contributions, and watch your gullak fill up. Simple, beautiful, and private. Free for everyone.",
+    locale: "en_IN",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Gullak — Personal Savings Tracker",
+        alt: "Gullak.Online — Personal Savings Tracker",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Gullak — Personal Savings Tracker",
+    title: "Gullak.Online — Personal Savings Tracker",
     description:
-      "Set savings goals, plan monthly contributions, and watch your gullak fill up.",
+      "Set savings goals, plan monthly contributions, and watch your gullak fill up. Free savings tracker made for India.",
     images: ["/og-image.png"],
   },
   robots: {
@@ -94,12 +100,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebApplication",
-              name: "Gullak",
+              name: "Gullak.Online",
+              alternateName: "Gullak",
               url: APP_URL,
               description:
-                "Gullak is a personal savings tracker. Set goals, plan monthly contributions, and watch your piggy bank fill up.",
+                "Gullak.Online is a free personal savings tracker. Set savings goals, plan monthly contributions, and watch your piggy bank fill up — one rupee at a time.",
               applicationCategory: "FinanceApplication",
               operatingSystem: "All",
+              inLanguage: "en-IN",
               offers: {
                 "@type": "Offer",
                 price: "0",
@@ -107,8 +115,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               },
               author: {
                 "@type": "Organization",
-                name: "Gullak",
+                name: "Gullak.Online",
                 url: APP_URL,
+              },
+              potentialAction: {
+                "@type": "UseAction",
+                target: APP_URL,
               },
             }),
           }}
