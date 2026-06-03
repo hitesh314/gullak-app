@@ -1,16 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-import { goals, recordHistory } from "@/lib/store";
+import { createClient as createSupabaseClient } from "@/lib/supabase/server";
+import { dbToGoal } from "@/lib/supabase";
 
-function getUserId(req: NextRequest): string | null {
-  return req.cookies.get("gullak_uid")?.value ?? null;
+function thisMonth() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
 }
 
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const uid = getUserId(req);
-  if (!uid) return NextResponse.json({ error: "No session" }, { status: 401 });
+  const supabase = await createSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id } = await params;
   const body = await req.json();
@@ -20,28 +23,61 @@ export async function PATCH(
     return NextResponse.json({ error: "deposit must be a non-zero number" }, { status: 400 });
   }
 
-  const goal = goals.find((g) => g.id === id && g.userId === uid);
-  if (!goal) {
+  const { data: existing, error: fetchError } = await supabase
+    .from("goals")
+    .select("*")
+    .eq("id", id)
+    .eq("user_id", user.id)
+    .single();
+
+  if (fetchError || !existing) {
     return NextResponse.json({ error: "Goal not found" }, { status: 404 });
   }
 
-  goal.savedAmount = Math.max(0, Math.min(goal.savedAmount + deposit, goal.targetAmount));
-  recordHistory(goal);
-  return NextResponse.json(goal);
+  const goal = dbToGoal(existing);
+  const newSaved = Math.max(0, Math.min(goal.savedAmount + deposit, goal.targetAmount));
+
+  const ym = thisMonth();
+  const history = [...(goal.history ?? [])];
+  const existingEntry = history.find((h) => h.yearMonth === ym);
+  if (existingEntry) {
+    existingEntry.savedAmount = newSaved;
+  } else {
+    history.push({ yearMonth: ym, savedAmount: newSaved });
+  }
+
+  const { data, error } = await supabase
+    .from("goals")
+    .update({ saved_amount: newSaved, history })
+    .eq("id", id)
+    .eq("user_id", user.id)
+    .select()
+    .single();
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  return NextResponse.json(dbToGoal(data));
 }
 
 export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const uid = getUserId(req);
-  if (!uid) return NextResponse.json({ error: "No session" }, { status: 401 });
+  const supabase = await createSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id } = await params;
-  const index = goals.findIndex((g) => g.id === id && g.userId === uid);
-  if (index === -1) {
-    return NextResponse.json({ error: "Goal not found" }, { status: 404 });
-  }
-  const [deleted] = goals.splice(index, 1);
-  return NextResponse.json(deleted);
+
+  const { data, error } = await supabase
+    .from("goals")
+    .delete()
+    .eq("id", id)
+    .eq("user_id", user.id)
+    .select()
+    .single();
+
+  if (error) return NextResponse.json({ error: "Goal not found" }, { status: 404 });
+
+  return NextResponse.json(dbToGoal(data));
 }

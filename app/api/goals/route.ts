@@ -1,24 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
-import { goals } from "@/lib/store";
-export type { Goal } from "@/lib/store";
+import { createClient as createSupabaseClient } from "@/lib/supabase/server";
+import { dbToGoal, goalToDb } from "@/lib/supabase";
+export type { Goal } from "@/lib/supabase";
 
-function getUserId(req: NextRequest): string | null {
-  return req.cookies.get("gullak_uid")?.value ?? null;
-}
+export async function GET() {
+  const supabase = await createSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-export async function GET(req: NextRequest) {
-  const uid = getUserId(req);
-  if (!uid) return NextResponse.json({ error: "No session" }, { status: 401 });
+  const { data, error } = await supabase
+    .from("goals")
+    .select("*")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: true });
 
-  const userGoals = goals.filter((g) => g.userId === uid);
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  const userGoals = (data ?? []).map(dbToGoal);
   const total = userGoals.reduce((sum, g) => sum + g.savedAmount, 0);
   const target = userGoals.reduce((sum, g) => sum + g.targetAmount, 0);
   return NextResponse.json({ goals: userGoals, total, target });
 }
 
 export async function POST(req: NextRequest) {
-  const uid = getUserId(req);
-  if (!uid) return NextResponse.json({ error: "No session" }, { status: 401 });
+  const supabase = await createSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await req.json();
   const { title, targetAmount, emoji, color, monthlyContribution, monthlyPlan, startDate, targetDate, initialSaved } = body;
@@ -32,8 +39,7 @@ export async function POST(req: NextRequest) {
   const saved = Math.min(Number(initialSaved) || 0, Number(targetAmount));
 
   const newGoal = {
-    id: Date.now().toString(),
-    userId: uid,
+    userId: user.id,
     title,
     targetAmount: Number(targetAmount),
     savedAmount: saved,
@@ -44,9 +50,15 @@ export async function POST(req: NextRequest) {
     startDate: startDate || ym,
     targetDate: targetDate || "",
     history: saved > 0 ? [{ yearMonth: ym, savedAmount: saved }] : [],
-    createdAt: new Date().toISOString(),
   };
 
-  goals.push(newGoal);
-  return NextResponse.json(newGoal, { status: 201 });
+  const { data, error } = await supabase
+    .from("goals")
+    .insert(goalToDb(newGoal))
+    .select()
+    .single();
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  return NextResponse.json(dbToGoal(data), { status: 201 });
 }
