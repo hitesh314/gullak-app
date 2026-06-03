@@ -1000,7 +1000,7 @@ export default function Home() {
             </div>
             <div className="text-center">
               <h1 className="text-3xl font-extrabold tracking-tight text-slate-800">
-                gullak<span className="text-[#C2955A]">.online</span>
+                Gullak<span className="text-[#C2955A]">.Online</span>
               </h1>
               <p className="text-slate-500 text-sm mt-1">Your personal savings piggy bank</p>
             </div>
@@ -1047,11 +1047,8 @@ export default function Home() {
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
         <div className="flex items-center justify-between px-4 h-14 md:px-8 md:h-16 max-w-2xl mx-auto w-full">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 md:w-8 md:h-8 bg-[#C2955A] rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-base md:text-xl">G</span>
-            </div>
             <span className="text-base md:text-xl font-bold tracking-tight">
-              gullak<span className="text-[#C2955A]">.online</span>
+              Gullak<span className="text-[#C2955A]">.Online</span>
             </span>
           </div>
           <div className="flex items-center gap-2">
