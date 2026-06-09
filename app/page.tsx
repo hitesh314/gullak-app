@@ -517,19 +517,17 @@ function InlineAmountInput({
           type="button"
           onClick={() => trigger("sub")}
           disabled={!canSubmit}
-          className={`w-14 h-14 rounded-full border-2 flex items-center justify-center text-2xl font-bold transition-all active:scale-90 shadow-md disabled:opacity-25 disabled:shadow-none ${
-            flash === "sub" ? "bg-red-500 border-red-500 text-white shadow-red-200" : "bg-red-50 border-red-300 text-red-500 hover:bg-red-100 shadow-red-100"
-          }`}
+          className={`w-14 h-14 rounded-full border-2 flex items-center justify-center text-2xl font-bold transition-all active:scale-90 shadow-md disabled:opacity-25 disabled:shadow-none ${flash === "sub" ? "bg-red-500 border-red-500 text-white shadow-red-200" : "bg-red-50 border-red-300 text-red-500 hover:bg-red-100 shadow-red-100"
+            }`}
         >
           −
         </button>
 
         {/* Amount input */}
-        <div className={`flex items-center gap-1 border-2 rounded-2xl px-5 py-3 transition-all ${
-          flash === "add" ? "border-[#C2955A] bg-[#FDF8F0]" :
-          flash === "sub" ? "border-red-300 bg-red-50" :
-          "border-slate-200 bg-white"
-        }`} style={{ width: 148 }}>
+        <div className={`flex items-center gap-1 border-2 rounded-2xl px-5 py-3 transition-all ${flash === "add" ? "border-[#C2955A] bg-[#FDF8F0]" :
+            flash === "sub" ? "border-red-300 bg-red-50" :
+              "border-slate-200 bg-white"
+          }`} style={{ width: 148 }}>
           <span className="text-slate-400 font-semibold text-sm">₹</span>
           <input
             ref={inputRef}
@@ -548,9 +546,8 @@ function InlineAmountInput({
           type="button"
           onClick={() => trigger("add")}
           disabled={!canSubmit}
-          className={`w-14 h-14 rounded-full border-2 flex items-center justify-center text-2xl font-bold transition-all active:scale-90 shadow-md disabled:opacity-25 disabled:shadow-none ${
-            flash === "add" ? "bg-[#C2955A] border-[#C2955A] text-white shadow-[#E2C48E]" : "bg-[#FDF8F0] border-[#C2955A] text-[#C2955A] hover:bg-[#FAF3E6] shadow-[#EDD9B0]"
-          }`}
+          className={`w-14 h-14 rounded-full border-2 flex items-center justify-center text-2xl font-bold transition-all active:scale-90 shadow-md disabled:opacity-25 disabled:shadow-none ${flash === "add" ? "bg-[#C2955A] border-[#C2955A] text-white shadow-[#E2C48E]" : "bg-[#FDF8F0] border-[#C2955A] text-[#C2955A] hover:bg-[#FAF3E6] shadow-[#EDD9B0]"
+            }`}
         >
           +
         </button>
@@ -561,18 +558,18 @@ function InlineAmountInput({
 
 // Irregular polygon shards covering a 400×460 area
 const SHARDS: { clip: string; tx: string; ty: string; rot: string }[] = [
-  { clip: "polygon(0% 0%, 45% 0%, 30% 35%, 0% 25%)",          tx: "-120px", ty: "-100px", rot: "-35deg" },
-  { clip: "polygon(45% 0%, 100% 0%, 100% 20%, 60% 30%)",       tx: "130px",  ty: "-110px", rot: "40deg"  },
-  { clip: "polygon(30% 35%, 45% 0%, 60% 30%, 50% 55%)",        tx: "20px",   ty: "-130px", rot: "-15deg" },
-  { clip: "polygon(0% 25%, 30% 35%, 50% 55%, 20% 65%)",        tx: "-140px", ty: "0px",    rot: "-50deg" },
-  { clip: "polygon(50% 55%, 60% 30%, 100% 20%, 80% 60%)",      tx: "150px",  ty: "-20px",  rot: "45deg"  },
-  { clip: "polygon(20% 65%, 50% 55%, 80% 60%, 60% 85%)",       tx: "0px",    ty: "80px",   rot: "20deg"  },
-  { clip: "polygon(0% 25%, 20% 65%, 5% 100%, 0% 80%)",         tx: "-130px", ty: "110px",  rot: "-60deg" },
-  { clip: "polygon(60% 85%, 80% 60%, 100% 80%, 100% 100%)",    tx: "140px",  ty: "120px",  rot: "55deg"  },
-  { clip: "polygon(5% 100%, 20% 65%, 60% 85%, 40% 100%)",      tx: "-60px",  ty: "150px",  rot: "-25deg" },
-  { clip: "polygon(40% 100%, 60% 85%, 100% 100%)",             tx: "60px",   ty: "160px",  rot: "30deg"  },
-  { clip: "polygon(100% 20%, 100% 80%, 80% 60%)",              tx: "170px",  ty: "60px",   rot: "65deg"  },
-  { clip: "polygon(0% 80%, 5% 100%, 0% 100%)",                 tx: "-160px", ty: "140px",  rot: "-70deg" },
+  { clip: "polygon(0% 0%, 45% 0%, 30% 35%, 0% 25%)", tx: "-120px", ty: "-100px", rot: "-35deg" },
+  { clip: "polygon(45% 0%, 100% 0%, 100% 20%, 60% 30%)", tx: "130px", ty: "-110px", rot: "40deg" },
+  { clip: "polygon(30% 35%, 45% 0%, 60% 30%, 50% 55%)", tx: "20px", ty: "-130px", rot: "-15deg" },
+  { clip: "polygon(0% 25%, 30% 35%, 50% 55%, 20% 65%)", tx: "-140px", ty: "0px", rot: "-50deg" },
+  { clip: "polygon(50% 55%, 60% 30%, 100% 20%, 80% 60%)", tx: "150px", ty: "-20px", rot: "45deg" },
+  { clip: "polygon(20% 65%, 50% 55%, 80% 60%, 60% 85%)", tx: "0px", ty: "80px", rot: "20deg" },
+  { clip: "polygon(0% 25%, 20% 65%, 5% 100%, 0% 80%)", tx: "-130px", ty: "110px", rot: "-60deg" },
+  { clip: "polygon(60% 85%, 80% 60%, 100% 80%, 100% 100%)", tx: "140px", ty: "120px", rot: "55deg" },
+  { clip: "polygon(5% 100%, 20% 65%, 60% 85%, 40% 100%)", tx: "-60px", ty: "150px", rot: "-25deg" },
+  { clip: "polygon(40% 100%, 60% 85%, 100% 100%)", tx: "60px", ty: "160px", rot: "30deg" },
+  { clip: "polygon(100% 20%, 100% 80%, 80% 60%)", tx: "170px", ty: "60px", rot: "65deg" },
+  { clip: "polygon(0% 80%, 5% 100%, 0% 100%)", tx: "-160px", ty: "140px", rot: "-70deg" },
 ];
 
 function GullakShatter({ active, w, h }: { active: boolean; w: number; h: number }) {
@@ -628,51 +625,51 @@ function GullakFlipCard({
     <>
       {/* ── Flip card (front = gullak, back = balance) ── */}
       <div className="relative w-full" style={{ height: 340 }}>
-      {/* Shatter overlay */}
-      <GullakShatter active={!!breaking} w={360} h={360} />
-      <div
-        className={`flip-card cursor-pointer select-none ${breaking ? "opacity-0" : ""}`}
-        style={{ width: "100%", height: 340, transition: breaking ? "opacity 0.1s 0.15s" : "none" }}
-        onClick={() => { if (!breaking) setFlipped((f) => { onFlip?.(!f); return !f; }); }}
-        title={flipped ? "Click to see gullak" : "Click for details"}
-      >
-        <div className={`flip-inner ${flipped ? "flipped" : ""}`}>
-          {/* Front */}
-          <div className="flip-front">
-            <Gullak pct={pct} coinAction={coinAction} />
-          </div>
+        {/* Shatter overlay */}
+        <GullakShatter active={!!breaking} w={360} h={360} />
+        <div
+          className={`flip-card cursor-pointer select-none ${breaking ? "opacity-0" : ""}`}
+          style={{ width: "100%", height: 340, transition: breaking ? "opacity 0.1s 0.15s" : "none" }}
+          onClick={() => { if (!breaking) setFlipped((f) => { onFlip?.(!f); return !f; }); }}
+          title={flipped ? "Click to see gullak" : "Click for details"}
+        >
+          <div className={`flip-inner ${flipped ? "flipped" : ""}`}>
+            {/* Front */}
+            <div className="flip-front">
+              <Gullak pct={pct} coinAction={coinAction} />
+            </div>
 
-          {/* Back: balance summary */}
-          <div className="flip-back rounded-3xl border border-slate-100 shadow-xl bg-white flex flex-col items-center justify-center gap-4 p-6 w-full" style={{ height: 340 }}>
-            <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Balance</p>
-            <div className="text-center">
-              <p className="text-6xl font-extrabold text-slate-800 tabular-nums">{fillPct}%</p>
-              <p className="text-xs text-slate-400 mt-1">of goal filled</p>
-            </div>
-            <div className="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
-              <div className="h-full rounded-full transition-all duration-700" style={{ width: `${fillPct}%`, background: barColor }} />
-            </div>
-            <div className="w-full grid grid-cols-2 gap-3">
-              <div className="bg-[#FDF8F0] rounded-2xl p-3 text-center">
-                <p className="text-xs font-bold uppercase text-[#D4AA72] mb-1">Saved</p>
-                <p className="text-sm font-extrabold text-[#A67840]">{fmt(savedAmount)}</p>
+            {/* Back: balance summary */}
+            <div className="flip-back rounded-3xl border border-slate-100 shadow-xl bg-white flex flex-col items-center justify-center gap-4 p-6 w-full" style={{ height: 340 }}>
+              <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Balance</p>
+              <div className="text-center">
+                <p className="text-6xl font-extrabold text-slate-800 tabular-nums">{fillPct}%</p>
+                <p className="text-xs text-slate-400 mt-1">of goal filled</p>
               </div>
-              <div className="bg-red-50 rounded-2xl p-3 text-center">
-                <p className="text-xs font-bold uppercase text-red-400 mb-1">Left</p>
-                <p className="text-sm font-extrabold text-red-600">{fmt(remaining)}</p>
+              <div className="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+                <div className="h-full rounded-full transition-all duration-700" style={{ width: `${fillPct}%`, background: barColor }} />
               </div>
+              <div className="w-full grid grid-cols-2 gap-3">
+                <div className="bg-[#FDF8F0] rounded-2xl p-3 text-center">
+                  <p className="text-xs font-bold uppercase text-[#D4AA72] mb-1">Saved</p>
+                  <p className="text-sm font-extrabold text-[#A67840]">{fmt(savedAmount)}</p>
+                </div>
+                <div className="bg-red-50 rounded-2xl p-3 text-center">
+                  <p className="text-xs font-bold uppercase text-red-400 mb-1">Left</p>
+                  <p className="text-sm font-extrabold text-red-600">{fmt(remaining)}</p>
+                </div>
+              </div>
+              <p className="text-xs text-slate-300">Tap to flip back</p>
             </div>
-            <p className="text-xs text-slate-300">Tap to flip back</p>
           </div>
         </div>
-      </div>
       </div>{/* end relative shatter wrapper */}
 
     </>
   );
 }
 
-const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 function MonthYearPicker({
   label,
@@ -689,7 +686,7 @@ function MonthYearPicker({
   const [open, setOpen] = useState(false);
 
   const selectedMonth = value ? parseInt(value.split("-")[1]) - 1 : -1;
-  const selectedYear  = value ? parseInt(value.split("-")[0]) : -1;
+  const selectedYear = value ? parseInt(value.split("-")[0]) : -1;
 
   const minYear = today.getFullYear();
   const minMonth = today.getMonth(); // 0-indexed; can't pick past months
@@ -714,9 +711,8 @@ function MonthYearPicker({
       <button
         type="button"
         onClick={() => { setPickerYear(initYear); setOpen((o) => !o); }}
-        className={`w-full flex items-center justify-between border rounded-xl px-4 py-3 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#D4AA72] ${
-          value ? "border-[#E2C48E] bg-[#FDF8F0] text-[#A67840] font-semibold" : "border-slate-200 bg-white text-slate-400"
-        }`}
+        className={`w-full flex items-center justify-between border rounded-xl px-4 py-3 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#D4AA72] ${value ? "border-[#E2C48E] bg-[#FDF8F0] text-[#A67840] font-semibold" : "border-slate-200 bg-white text-slate-400"
+          }`}
       >
         <span>{displayLabel}</span>
         <svg className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -757,13 +753,12 @@ function MonthYearPicker({
                   type="button"
                   disabled={disabled}
                   onClick={() => select(i)}
-                  className={`py-2 rounded-xl text-xs font-semibold transition-all ${
-                    active
+                  className={`py-2 rounded-xl text-xs font-semibold transition-all ${active
                       ? "bg-[#C2955A] text-white shadow-sm"
                       : disabled
-                      ? "text-slate-300 cursor-not-allowed"
-                      : "text-slate-600 hover:bg-[#FDF8F0] hover:text-[#A67840]"
-                  }`}
+                        ? "text-slate-300 cursor-not-allowed"
+                        : "text-slate-600 hover:bg-[#FDF8F0] hover:text-[#A67840]"
+                    }`}
                 >
                   {m}
                 </button>
@@ -991,51 +986,209 @@ export default function Home() {
   // ── Login screen ──
   if (user === null) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-6" style={{ background: "#F5EDD8" }}>
-        <div className="w-full max-w-sm flex flex-col items-center gap-8">
-          {/* Logo */}
-          <div className="flex flex-col items-center gap-3">
-            <div className="w-16 h-16 bg-[#C2955A] rounded-2xl flex items-center justify-center shadow-lg">
-              <span className="text-white font-extrabold text-3xl">G</span>
+      <div className="min-h-screen flex flex-col" style={{ background: "#F5EDD8" }}>
+        {/* Hero / sign-in card */}
+        <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
+          <div className="w-full max-w-sm flex flex-col items-center gap-8">
+            {/* Logo */}
+            <div className="flex flex-col items-center gap-3">
+              <div className="text-center">
+                <h1 className="text-3xl font-extrabold tracking-tight text-slate-800">
+                  Gullak<span className="text-[#C2955A]">.Online</span>
+                </h1>
+                <p className="text-slate-700 text-base font-semibold mt-1">Free Personal Savings Tracker for India</p>
+                <p className="text-slate-500 text-sm mt-1 leading-relaxed max-w-xs">
+                  Set savings goals in ₹, plan monthly contributions, and watch your digital piggy bank fill up — one rupee at a time.
+                </p>
+              </div>
             </div>
-            <div className="text-center">
-              <h1 className="text-3xl font-extrabold tracking-tight text-slate-800">
-                Gullak<span className="text-[#C2955A]">.Online</span>
-              </h1>
-              <p className="text-slate-500 text-sm mt-1">Your personal savings piggy bank</p>
+
+            {/* Gullak image */}
+            <div className="relative w-48 h-48 flex-shrink-0">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/gullak.png" alt="Digital gullak piggy bank savings tracker" className="w-full h-full object-contain" style={{ mixBlendMode: "multiply" }} />
             </div>
-          </div>
 
-          {/* Gullak image */}
-          <div className="relative w-48 h-48 flex-shrink-0">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/gullak.png" alt="Gullak" className="w-full h-full object-contain" style={{ mixBlendMode: "multiply" }} />
-          </div>
-
-          {/* Sign in */}
-          <div className="w-full flex flex-col gap-3">
-            <button
-              onClick={signInWithGoogle}
-              disabled={signingIn}
-              className="w-full flex items-center justify-center gap-3 bg-white border border-slate-200 rounded-2xl py-4 px-6 text-sm font-semibold text-slate-700 hover:bg-slate-50 active:scale-95 transition-all shadow-sm disabled:opacity-60"
-            >
-              {signingIn ? (
-                <div className="w-5 h-5 rounded-full border-2 border-[#C2955A] border-t-transparent animate-spin" />
-              ) : (
-                <svg className="w-5 h-5" viewBox="0 0 24 24">
-                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
-                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                </svg>
-              )}
-              {signingIn ? "Redirecting…" : "Continue with Google"}
-            </button>
-            <p className="text-center text-xs text-slate-400">
-              Your goals are private and only visible to you
-            </p>
+            {/* Sign in */}
+            <div className="w-full flex flex-col gap-3">
+              <button
+                onClick={signInWithGoogle}
+                disabled={signingIn}
+                className="w-full flex items-center justify-center gap-3 bg-white border border-slate-200 rounded-2xl py-4 px-6 text-sm font-semibold text-slate-700 hover:bg-slate-50 active:scale-95 transition-all shadow-sm disabled:opacity-60"
+              >
+                {signingIn ? (
+                  <div className="w-5 h-5 rounded-full border-2 border-[#C2955A] border-t-transparent animate-spin" />
+                ) : (
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" />
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                  </svg>
+                )}
+                {signingIn ? "Redirecting…" : "Continue with Google"}
+              </button>
+              <p className="text-center text-xs text-slate-400">
+                Free forever · No credit card · Your goals are private
+              </p>
+            </div>
           </div>
         </div>
+
+        {/* ── Features ── */}
+        <section className="px-6 pb-10 max-w-lg mx-auto w-full" aria-label="Features">
+          <h2 className="text-lg font-extrabold text-slate-800 text-center mb-6">
+            Your digital गुल्लक, reinvented
+          </h2>
+          <ul className="grid grid-cols-2 gap-4" role="list">
+            <li className="bg-white/60 rounded-2xl p-4 flex flex-col gap-2">
+              <span className="text-2xl" aria-hidden="true">🎯</span>
+              <h3 className="text-sm font-bold text-slate-800">Savings goal tracker</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Create unlimited savings goals in ₹ — emergency fund, vacation, gadget, wedding, or anything you dream of.
+              </p>
+            </li>
+            <li className="bg-white/60 rounded-2xl p-4 flex flex-col gap-2">
+              <span className="text-2xl" aria-hidden="true">📅</span>
+              <h3 className="text-sm font-bold text-slate-800">Monthly savings planner</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Know exactly how much to save each month. Auto-calculates your monthly contribution so you hit your goal on time.
+              </p>
+            </li>
+            <li className="bg-white/60 rounded-2xl p-4 flex flex-col gap-2">
+              <span className="text-2xl" aria-hidden="true">🐷</span>
+              <h3 className="text-sm font-bold text-slate-800">Animated piggy bank</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Watch your digital gullak fill up with every rupee you deposit. Visual progress you can feel.
+              </p>
+            </li>
+            <li className="bg-white/60 rounded-2xl p-4 flex flex-col gap-2">
+              <span className="text-2xl" aria-hidden="true">📊</span>
+              <h3 className="text-sm font-bold text-slate-800">Contribution history</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                See a month-by-month chart of deposits and withdrawals. Track your saving habits over time.
+              </p>
+            </li>
+            <li className="bg-white/60 rounded-2xl p-4 flex flex-col gap-2">
+              <span className="text-2xl" aria-hidden="true">🔒</span>
+              <h3 className="text-sm font-bold text-slate-800">Private & secure</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Your savings data is only visible to you — secured with Google Sign-In and end-to-end private storage.
+              </p>
+            </li>
+            <li className="bg-white/60 rounded-2xl p-4 flex flex-col gap-2">
+              <span className="text-2xl" aria-hidden="true">✨</span>
+              <h3 className="text-sm font-bold text-slate-800">Free forever</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                No subscription, no ads, no hidden charges. Gullak.Online is 100% free — made with love for India.
+              </p>
+            </li>
+          </ul>
+
+          {/* Trust signals */}
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-slate-500">
+            <span className="flex items-center gap-1"><span aria-hidden="true" className="text-green-500">✓</span> Made for India</span>
+            <span className="flex items-center gap-1"><span aria-hidden="true" className="text-green-500">✓</span> Works on mobile &amp; desktop</span>
+            <span className="flex items-center gap-1"><span aria-hidden="true" className="text-green-500">✓</span> Installs as PWA</span>
+            <span className="flex items-center gap-1"><span aria-hidden="true" className="text-green-500">✓</span> Free forever</span>
+          </div>
+        </section>
+
+        {/* ── How it works ── */}
+        <section className="px-6 pb-10 max-w-lg mx-auto w-full" aria-label="How it works">
+          <h2 className="text-lg font-extrabold text-slate-800 text-center mb-6">
+            How Gullak.Online works
+          </h2>
+          <ol className="flex flex-col gap-5" role="list">
+            <li className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#C2955A] text-white text-sm font-bold flex items-center justify-center">1</div>
+              <div>
+                <h3 className="text-sm font-bold text-slate-800">Create a savings goal</h3>
+                <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                  Sign in with Google and tap <strong>Add Gullak</strong>. Give your goal a name (e.g. "Trip to Goa"), set a target amount in rupees, and pick a target date.
+                </p>
+              </div>
+            </li>
+            <li className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#C2955A] text-white text-sm font-bold flex items-center justify-center">2</div>
+              <div>
+                <h3 className="text-sm font-bold text-slate-800">Plan your monthly contributions</h3>
+                <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                  Gullak divides your goal equally across months, or lets you set a custom amount for each month — so your savings plan fits your income.
+                </p>
+              </div>
+            </li>
+            <li className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#C2955A] text-white text-sm font-bold flex items-center justify-center">3</div>
+              <div>
+                <h3 className="text-sm font-bold text-slate-800">Deposit and watch your gullak fill</h3>
+                <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                  Each time you save money, log a deposit. Your animated piggy bank fills up and your progress updates instantly — until your goal is complete.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        {/* ── FAQ ── */}
+        <section className="px-6 pb-10 max-w-lg mx-auto w-full" aria-label="Frequently asked questions">
+          <h2 className="text-lg font-extrabold text-slate-800 text-center mb-6">
+            Frequently Asked Questions
+          </h2>
+          <div className="flex flex-col gap-4">
+            {[
+              {
+                q: "What is Gullak.Online?",
+                a: "Gullak.Online is a free personal savings tracker made for India. You can create savings goals (called gullaks), set a target amount and date, plan monthly contributions, deposit money, and visualise progress with a beautiful animated piggy bank.",
+              },
+              {
+                q: "Is Gullak.Online free to use?",
+                a: "Yes, completely free. No subscriptions, no hidden fees, no premium tiers. Create and track unlimited savings goals at no cost, forever.",
+              },
+              {
+                q: "What is a gullak (गुल्लक)?",
+                a: "A gullak is the Hindi word for piggy bank — a container used to save coins. Gullak.Online digitises this concept: each savings goal is a digital gullak that fills up as you deposit money toward your target.",
+              },
+              {
+                q: "Is my savings data private?",
+                a: "Absolutely. Your goals and data are private and only visible to you. Gullak.Online uses Google Sign-In for secure authentication and stores your data with Supabase. Nobody else can see your savings.",
+              },
+              {
+                q: "Can I track multiple savings goals?",
+                a: "Yes! Create as many gullaks as you like — one for an emergency fund, one for a vacation, one for a new gadget. Each goal has its own piggy bank, progress tracker, and monthly contribution plan.",
+              },
+              {
+                q: "Does Gullak.Online work on mobile?",
+                a: "Yes. It is a fully responsive web app that works on mobile, tablet, and desktop. You can also install it as a Progressive Web App (PWA) on your phone for a native app-like experience.",
+              },
+            ].map(({ q, a }) => (
+              <details key={q} className="bg-white/60 rounded-2xl px-5 py-4 group">
+                <summary className="text-sm font-bold text-slate-800 cursor-pointer list-none flex items-center justify-between gap-2">
+                  {q}
+                  <span className="text-[#C2955A] text-lg leading-none group-open:rotate-45 transition-transform">+</span>
+                </summary>
+                <p className="text-xs text-slate-500 mt-3 leading-relaxed">{a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Footer ── */}
+        <footer className="px-6 pb-10 pt-2 max-w-lg mx-auto w-full text-center" aria-label="Footer">
+          <p className="text-xs text-slate-400 leading-relaxed">
+            Gullak.Online — free personal savings tracker for India. Save money, set goals, and track rupee contributions with your digital गुल्लक (piggy bank). Built for Indians who want a simple, private, and beautiful way to manage their savings goals.
+          </p>
+          <div className="mt-4 flex items-center justify-center gap-4 text-xs">
+            <a href="/blog" className="text-[#C2955A] hover:underline font-medium">Blog</a>
+            <span className="text-slate-300">·</span>
+            <a href="/blog/how-to-save-money-in-india" className="text-slate-400 hover:text-[#C2955A] transition-colors">How to save money in India</a>
+            <span className="text-slate-300">·</span>
+            <a href="/blog/what-is-a-gullak" className="text-slate-400 hover:text-[#C2955A] transition-colors">What is a gullak?</a>
+          </div>
+          <p className="text-xs text-slate-300 mt-3">
+            © {new Date().getFullYear()} Gullak.Online · Free savings goal tracker · Made in India 🇮🇳
+          </p>
+        </footer>
       </div>
     );
   }
@@ -1201,7 +1354,7 @@ export default function Home() {
 
           {loading && (
             <div className="w-full grid grid-cols-2 gap-4 mt-4">
-              {[1,2,3,4].map(i => <div key={i} className="h-52 bg-slate-100 rounded-3xl animate-pulse" />)}
+              {[1, 2, 3, 4].map(i => <div key={i} className="h-52 bg-slate-100 rounded-3xl animate-pulse" />)}
             </div>
           )}
         </div>
@@ -1220,7 +1373,7 @@ export default function Home() {
             <div className="text-5xl">🔨</div>
             <h2 className="text-xl font-extrabold text-slate-800 text-center">Break the Gullak?</h2>
             <p className="text-sm text-slate-500 text-center leading-relaxed">
-              You&apos;ve saved <span className="font-bold text-[#C2955A]">{fmt(goal.savedAmount)}</span> in <span className="font-bold">{goal.title}</span>.<br/>
+              You&apos;ve saved <span className="font-bold text-[#C2955A]">{fmt(goal.savedAmount)}</span> in <span className="font-bold">{goal.title}</span>.<br />
               Breaking it will remove this goal permanently.
             </p>
             <div className="w-full flex gap-3 mt-2">
@@ -1294,18 +1447,16 @@ export default function Home() {
                   <button
                     type="button"
                     onClick={() => setAddForm((f) => ({ ...f, divideEqually: !f.divideEqually }))}
-                    className={`flex items-center gap-2.5 w-full border rounded-xl px-4 py-3 text-sm transition-all ${
-                      addForm.divideEqually
+                    className={`flex items-center gap-2.5 w-full border rounded-xl px-4 py-3 text-sm transition-all ${addForm.divideEqually
                         ? "border-[#D4AA72] bg-[#FDF8F0] text-[#A67840]"
                         : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
-                    }`}
+                      }`}
                   >
-                    <span className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-                      addForm.divideEqually ? "border-[#C2955A] bg-[#C2955A]" : "border-slate-300"
-                    }`}>
+                    <span className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${addForm.divideEqually ? "border-[#C2955A] bg-[#C2955A]" : "border-slate-300"
+                      }`}>
                       {addForm.divideEqually && (
                         <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 10 8">
-                          <path d="M1 4l3 3 5-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M1 4l3 3 5-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       )}
                     </span>
